@@ -1,14 +1,15 @@
+// src/components/TransferHistory.js
 import React, { useEffect, useState } from "react";
 import axios from "../../api/axios";
 import { List, Button, Popconfirm, message, Modal } from "antd";
 import { formatDistanceToNow } from "date-fns";
 
-const TransferHistory = ({ modalVisible, closeModal }) => {
+const TransferHistory = ({ modalVisible, closeModal, userId }) => {
   const [transfers, setTransfers] = useState([]);
 
   const fetchTransfers = async () => {
     try {
-      const response = await axios.get(`transfers`);
+      const response = await axios.get(`/transfers/${userId}`); // Fetch transfers for the specific user
       setTransfers(response.data);
     } catch (error) {
       console.error(error);
@@ -18,7 +19,9 @@ const TransferHistory = ({ modalVisible, closeModal }) => {
 
   const handleRevoke = async (id) => {
     try {
-      await axios.delete(`transfer/${id}`);
+      await axios.delete(`/transfer/${id}`, {
+        data: { userId: userId },
+      });
       fetchTransfers();
       message.success("Transfer revoked successfully.");
     } catch (error) {
@@ -28,8 +31,10 @@ const TransferHistory = ({ modalVisible, closeModal }) => {
   };
 
   useEffect(() => {
-    fetchTransfers();
-  }, []);
+    if (modalVisible) {
+      fetchTransfers();
+    }
+  }, [modalVisible]);
 
   return (
     <Modal
@@ -48,7 +53,7 @@ const TransferHistory = ({ modalVisible, closeModal }) => {
           renderItem={(transfer) => (
             <List.Item
               key={transfer._id}
-              className="border-b border-gray-200 px-4 py-4 "
+              className="border-b border-gray-200 px-4 py-4"
             >
               <div className="flex justify-between">
                 <div className="flex-1">

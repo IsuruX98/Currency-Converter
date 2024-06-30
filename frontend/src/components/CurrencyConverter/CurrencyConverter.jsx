@@ -1,16 +1,19 @@
+// src/components/CurrencyConverter.js
 import React, { useState } from "react";
 import axios from "../../api/axios";
 import { Select, Input, Button, message, Modal } from "antd";
-import TransferHistory from "../TransferHistory/TransferHistory"; // Import TransferHistory component
+import TransferHistory from "../TransferHistory/TransferHistory";
+import { useAuth } from "../../context/authContext";
 
 const { Option } = Select;
 
 const CurrencyConverter = () => {
+  const { user } = useAuth(); // Assuming user is provided by the auth context
   const [fromCountry, setFromCountry] = useState("USD");
   const [toCountry, setToCountry] = useState("LKR");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleConvert = async () => {
     if (!amount) {
@@ -18,7 +21,7 @@ const CurrencyConverter = () => {
       return;
     }
     try {
-      const response = await axios.get(`rate`, {
+      const response = await axios.get(`/rate`, {
         params: { from: fromCountry, to: toCountry, amount },
       });
       setConvertedAmount(response.data.convertedAmount);
@@ -34,11 +37,12 @@ const CurrencyConverter = () => {
       return;
     }
     try {
-      await axios.post(`transfer`, {
+      await axios.post(`/transfer`, {
         fromCountry,
         toCountry,
         amount,
         convertedAmount,
+        userId: user._id, // Send user ID along with the transfer data
       });
       message.success("Transfer successful!");
     } catch (error) {
@@ -109,19 +113,31 @@ const CurrencyConverter = () => {
         )}
       </div>
       <div className="flex flex-col gap-3">
-        <Button type="primary" block onClick={handleTransfer}>
-          Transfer
-        </Button>
-        <Button type="default" block onClick={handleOpenModal}>
-          View Transfer History
-        </Button>
+        {user ? (
+          <>
+            <Button type="primary" block onClick={handleTransfer}>
+              Transfer
+            </Button>
+            <Button type="default" block onClick={handleOpenModal}>
+              View Transfer History
+            </Button>
+          </>
+        ) : (
+          <p className="text-sm text-gray-600">
+            You can convert amounts but need to log in to transfer funds or
+            check the transaction history.
+          </p>
+        )}
       </div>
 
       {/* Modal for Transfer History */}
-      <TransferHistory
-        modalVisible={modalVisible}
-        closeModal={handleCloseModal}
-      />
+      {user && (
+        <TransferHistory
+          modalVisible={modalVisible}
+          closeModal={handleCloseModal}
+          userId={user._id} // Pass user ID to TransferHistory
+        />
+      )}
     </div>
   );
 };

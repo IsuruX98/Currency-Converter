@@ -1,4 +1,3 @@
-// server/models/Transfer.js
 const mongoose = require("mongoose");
 
 const TransferSchema = new mongoose.Schema(
@@ -7,6 +6,11 @@ const TransferSchema = new mongoose.Schema(
     toCountry: String,
     amount: Number,
     convertedAmount: Number,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,
