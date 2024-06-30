@@ -1,6 +1,7 @@
 import React from "react";
 //import { useAuth } from "../context/authContext";
 import Hero from "../components/Hero/Hero";
+import Converter from "../components/Converter/Converter";
 
 const Home = () => {
   //const { user, isLoggedIn } = useAuth();
@@ -13,6 +14,7 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      <Converter />
     </div>
   );
 };
