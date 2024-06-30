@@ -2,12 +2,23 @@
 
 ## Overview
 
-This project is a user-friendly currency converter and transfer management application. Users can convert amounts between specified currencies, create transfer records, and manage their transfer history. Authentication is required for transferring funds and viewing transaction history.
+This project provides a user-friendly currency converter and transfer management system. Users can convert amounts between specified currencies, create transfer records, and manage their transfer history. Authentication is required for transferring funds and viewing transaction history.
 
 ## Live Demo
 
 - **Frontend**: [Vercel Live Demo](https://your-vercel-app-url.vercel.app)
 - **Backend**: [Render API Endpoint](https://your-render-app-url.render.com)
+
+## Screenshots
+
+![Screenshot_30-6-2024_185427_localhost](https://github.com/IsuruX98/Currency-Converter/assets/104721314/f0ace66b-f525-4d37-a709-7766b2a18eda)
+
+![Screenshot_30-6-2024_18533_localhost](https://github.com/IsuruX98/Currency-Converter/assets/104721314/5413e5f0-3467-455e-a6d8-ee459cfe92ac)
+
+![Screenshot_30-6-2024_185318_localhost](https://github.com/IsuruX98/Currency-Converter/assets/104721314/c6d3f0de-5796-4f4e-98cb-663d41809a44)
+
+![Screenshot 2024-06-30 185542](https://github.com/IsuruX98/Currency-Converter/assets/104721314/2fd18901-1c21-4368-876b-772ab40ac8ac)
+
 
 ## Technologies Used
 
@@ -42,7 +53,7 @@ This project is a user-friendly currency converter and transfer management appli
 ## Project Structure
 
 ```
-project-root/
+Currency-Converter/
 │
 ├── backend/                 # Backend code (Express.js)
 │   ├── models/              # Mongoose models
@@ -56,7 +67,6 @@ project-root/
 │   │   ├── pages/           # Pages
 │   │   ├── App.js           # Main app component
 │   │   └── index.js         # Entry point
-│   └── .env                 # Environment variables (excluded in .gitignore)
 │
 ├── README.md                # Project documentation
 └── .gitignore               # Git ignore rules
@@ -75,8 +85,8 @@ project-root/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo/backend
+   git clone https://github.com/IsuruX98/Currency-Converter.git
+   cd Currency-Converter/backend
    ```
 
 2. Install dependencies:
@@ -87,9 +97,10 @@ project-root/
 3. Create a `.env` file in the `backend` directory and add your environment variables:
    ```plaintext
    PORT=5000
-   MONGODB_URI=your_mongodb_uri
-   EXCHANGE_RATE_API_KEY=your_exchange_rate_api_key
-   JWT_SECRET=your_jwt_secret
+   MONGO_URI=mongodb+srv://isuru:1234@currencyconverter.fzwgrls.mongodb.net/?retryWrites=true&w=majority&appName=CurrencyConverter
+   NODE_ENV=development
+   JWT_SECRET=mekarahasak
+   EXCHANGERATE_API_KEY=f2016171eae115082f4d8ebd
    ```
 
 4. Start the backend server:
@@ -109,15 +120,12 @@ project-root/
    npm install
    ```
 
-3. Create a `.env` file in the `frontend` directory and add your environment variables:
-   ```plaintext
-   REACT_APP_API_URL=https://your-render-app-url.render.com
-   ```
-
-4. Start the frontend development server:
+3. Start the frontend development server:
    ```bash
    npm start
    ```
+
+> **Note**: No `.env` file is required for the frontend setup as all configurations are managed through the backend.
 
 ## Usage
 
@@ -126,48 +134,20 @@ project-root/
 3. Log in to create a transfer record.
 4. View and manage your transfer history.
 
-## API Endpoints
-
-### Currency Conversion
-
-- **GET** `/api/rates`: Fetch conversion rates from ExchangeRate-API.
-
-### Transfers
-
-- **GET** `/api/transfers`: Retrieve transfer history.
-- **POST** `/api/transfer`: Create a new transfer.
-- **DELETE** `/api/transfer/:id`: Revoke a transfer.
-
-### Authentication
-
-- **POST** `/api/auth/login`: Log in a user.
-- **POST** `/api/auth/register`: Register a new user.
-
 ## Environment Variables
 
-Create `.env` files in both `frontend` and `backend` directories. Add the following variables:
+Create a `.env` file in the `backend` directory and add the following variables:
 
 ### Backend
 
 ```plaintext
 PORT=5000
-MONGODB_URI=your_mongodb_uri
-EXCHANGE_RATE_API_KEY=your_exchange_rate_api_key
-JWT_SECRET=your_jwt_secret
+MONGO_URI=mongodb+srv://isuru:1234@currencyconverter.fzwgrls.mongodb.net/?retryWrites=true&w=majority&appName=CurrencyConverter
+NODE_ENV=development
+JWT_SECRET=mekarahasak
+EXCHANGERATE_API_KEY=f2016171eae115082f4d8ebd
 ```
 
 ### Frontend
 
-```plaintext
-REACT_APP_API_URL=https://your-render-app-url.render.com
-```
-
-## Commit History
-
-Ensure your commit history is meaningful and descriptive. Use commit messages that reflect the changes made.
-
-## .gitignore
-
-Add `.env` and any sensitive files to `.gitignore` to prevent them from being committed to the repository.
-
-## Screenshots
+> **No `.env` file is required for the frontend**.
