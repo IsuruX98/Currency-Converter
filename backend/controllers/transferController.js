@@ -7,7 +7,7 @@ exports.getRate = async (req, res) => {
   const { from, to, amount } = req.query;
   try {
     const response = await axios.get(
-      `https://v6.exchangerate-api.com/v6/f2016171eae115082f4d8ebd/latest/${from}`
+      `https://v6.exchangerate-api.com/v6/${process.env.EXCHANGERATE_API_KEY}/latest/${from}`
     );
     const rate = response.data.conversion_rates[to];
     const convertedAmount = rate * amount;
