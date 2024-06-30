@@ -1,6 +1,6 @@
-// src/components/TransferHistory.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { List, Button, Card, Popconfirm, message } from "antd";
 
 const TransferHistory = () => {
   const [transfers, setTransfers] = useState([]);
@@ -11,6 +11,7 @@ const TransferHistory = () => {
       setTransfers(response.data);
     } catch (error) {
       console.error(error);
+      message.error("Failed to fetch transfer history.");
     }
   };
 
@@ -18,8 +19,10 @@ const TransferHistory = () => {
     try {
       await axios.delete(`/api/transfer/${id}`);
       fetchTransfers();
+      message.success("Transfer revoked successfully.");
     } catch (error) {
       console.error(error);
+      message.error("Failed to revoke transfer.");
     }
   };
 
@@ -28,22 +31,32 @@ const TransferHistory = () => {
   }, []);
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
-      <h2 className="text-xl font-semibold mb-4">Transfer History</h2>
-      {transfers.map((transfer) => (
-        <div key={transfer._id} className="border-b py-2">
-          <p>
-            From: {transfer.fromCountry}, To: {transfer.toCountry}, Amount:{" "}
-            {transfer.amount}, Converted: {transfer.convertedAmount}
-          </p>
-          <button
-            className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 mt-2"
-            onClick={() => handleRevoke(transfer._id)}
-          >
-            Revoke
-          </button>
-        </div>
-      ))}
+    <div className="max-w-2xl mx-auto bg-white p-8">
+      <List
+        dataSource={transfers}
+        renderItem={(transfer) => (
+          <List.Item>
+            <Card className="w-full">
+              <p className="text-gray-800">
+                <strong>From:</strong> {transfer.fromCountry} <br />
+                <strong>To:</strong> {transfer.toCountry} <br />
+                <strong>Amount:</strong> {transfer.amount} <br />
+                <strong>Converted:</strong> {transfer.convertedAmount}
+              </p>
+              <Popconfirm
+                title="Are you sure to revoke this transfer?"
+                onConfirm={() => handleRevoke(transfer._id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button type="primary" danger className="mt-4">
+                  Revoke
+                </Button>
+              </Popconfirm>
+            </Card>
+          </List.Item>
+        )}
+      />
     </div>
   );
 };

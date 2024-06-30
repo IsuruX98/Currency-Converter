@@ -1,6 +1,8 @@
-// src/components/CurrencyConverter.js
 import React, { useState } from "react";
 import axios from "axios";
+import { Select, Input, Button, message } from "antd";
+
+const { Option } = Select;
 
 const CurrencyConverter = () => {
   const [fromCountry, setFromCountry] = useState("USD");
@@ -9,6 +11,10 @@ const CurrencyConverter = () => {
   const [convertedAmount, setConvertedAmount] = useState(null);
 
   const handleConvert = async () => {
+    if (!amount) {
+      message.error("Please enter a valid amount.");
+      return;
+    }
     try {
       const response = await axios.get(`/api/rate`, {
         params: { from: fromCountry, to: toCountry, amount },
@@ -16,10 +22,15 @@ const CurrencyConverter = () => {
       setConvertedAmount(response.data.convertedAmount);
     } catch (error) {
       console.error(error);
+      message.error("Conversion failed. Please try again.");
     }
   };
 
   const handleTransfer = async () => {
+    if (!convertedAmount) {
+      message.error("Please perform a conversion first.");
+      return;
+    }
     try {
       await axios.post(`/api/transfer`, {
         fromCountry,
@@ -27,73 +38,69 @@ const CurrencyConverter = () => {
         amount,
         convertedAmount,
       });
+      message.success("Transfer successful!");
     } catch (error) {
       console.error(error);
+      message.error("Transfer failed. Please try again.");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6">
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">
+    <div className="max-w-lg mx-auto bg-white  p-8">
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
           From Country
         </label>
-        <select
-          className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md p-2"
+        <Select
+          className="w-full"
           value={fromCountry}
-          onChange={(e) => setFromCountry(e.target.value)}
+          onChange={(value) => setFromCountry(value)}
         >
-          <option value="USD">USA</option>
-          <option value="LKR">Sri Lanka</option>
-          <option value="AUD">Australia</option>
-          <option value="INR">India</option>
-        </select>
+          <Option value="USD">USA (USD)</Option>
+          <Option value="LKR">Sri Lanka (LKR)</Option>
+          <Option value="AUD">Australia (AUD)</Option>
+          <Option value="INR">India (INR)</Option>
+        </Select>
       </div>
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
           To Country
         </label>
-        <select
-          className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md p-2"
+        <Select
+          className="w-full"
           value={toCountry}
-          onChange={(e) => setToCountry(e.target.value)}
+          onChange={(value) => setToCountry(value)}
         >
-          <option value="USD">USA</option>
-          <option value="LKR">Sri Lanka</option>
-          <option value="AUD">Australia</option>
-          <option value="INR">India</option>
-        </select>
+          <Option value="USD">USA (USD)</Option>
+          <Option value="LKR">Sri Lanka (LKR)</Option>
+          <Option value="AUD">Australia (AUD)</Option>
+          <Option value="INR">India (INR)</Option>
+        </Select>
       </div>
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
           Amount
         </label>
-        <input
+        <Input
           type="number"
-          className="mt-1 block w-full bg-gray-100 border border-gray-300 rounded-md p-2"
+          className="w-full"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
       </div>
-      <div className="flex items-center space-x-4">
-        <button
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          onClick={handleConvert}
-        >
+      <div className="flex items-center space-x-4 mb-6">
+        <Button type="primary" onClick={handleConvert}>
           Convert
-        </button>
+        </Button>
         {convertedAmount && (
           <div className="text-sm text-gray-700">
             Converted Amount: {convertedAmount}
           </div>
         )}
       </div>
-      <button
-        className="mt-4 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-        onClick={handleTransfer}
-      >
+      <Button type="primary" block onClick={handleTransfer}>
         Transfer
-      </button>
+      </Button>
     </div>
   );
 };
