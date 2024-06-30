@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../api/axios";
 import { List, Button, Card, Popconfirm, message } from "antd";
 
 const TransferHistory = () => {
@@ -7,7 +7,7 @@ const TransferHistory = () => {
 
   const fetchTransfers = async () => {
     try {
-      const response = await axios.get(`/api/transfers`);
+      const response = await axios.get(`transfers`);
       setTransfers(response.data);
     } catch (error) {
       console.error(error);
@@ -17,7 +17,7 @@ const TransferHistory = () => {
 
   const handleRevoke = async (id) => {
     try {
-      await axios.delete(`/api/transfer/${id}`);
+      await axios.delete(`transfer/${id}`);
       fetchTransfers();
       message.success("Transfer revoked successfully.");
     } catch (error) {

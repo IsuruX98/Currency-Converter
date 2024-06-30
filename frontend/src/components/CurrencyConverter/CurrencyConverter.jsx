@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../../api/axios";
 import { Select, Input, Button, message } from "antd";
 
 const { Option } = Select;
@@ -16,7 +16,7 @@ const CurrencyConverter = () => {
       return;
     }
     try {
-      const response = await axios.get(`/api/rate`, {
+      const response = await axios.get(`rate`, {
         params: { from: fromCountry, to: toCountry, amount },
       });
       setConvertedAmount(response.data.convertedAmount);
@@ -32,7 +32,7 @@ const CurrencyConverter = () => {
       return;
     }
     try {
-      await axios.post(`/api/transfer`, {
+      await axios.post(`transfer`, {
         fromCountry,
         toCountry,
         amount,
