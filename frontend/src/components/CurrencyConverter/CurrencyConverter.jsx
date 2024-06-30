@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "../../api/axios";
-import { Select, Input, Button, message } from "antd";
+import { Select, Input, Button, message, Modal } from "antd";
+import TransferHistory from "../TransferHistory/TransferHistory"; // Import TransferHistory component
 
 const { Option } = Select;
 
@@ -9,6 +10,7 @@ const CurrencyConverter = () => {
   const [toCountry, setToCountry] = useState("LKR");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
 
   const handleConvert = async () => {
     if (!amount) {
@@ -45,8 +47,16 @@ const CurrencyConverter = () => {
     }
   };
 
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
   return (
-    <div className="max-w-lg mx-auto bg-white rounded-3xl  p-8">
+    <div className="max-w-lg mx-auto bg-white rounded-3xl p-8">
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           From Country
@@ -102,10 +112,16 @@ const CurrencyConverter = () => {
         <Button type="primary" block onClick={handleTransfer}>
           Transfer
         </Button>
-        <Button type="default" block onClick={handleTransfer}>
+        <Button type="default" block onClick={handleOpenModal}>
           View Transfer History
         </Button>
       </div>
+
+      {/* Modal for Transfer History */}
+      <TransferHistory
+        modalVisible={modalVisible}
+        closeModal={handleCloseModal}
+      />
     </div>
   );
 };
