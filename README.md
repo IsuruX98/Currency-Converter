@@ -6,7 +6,7 @@ This project provides a user-friendly currency converter and transfer management
 
 ## Live Demo
 
-- **Frontend**: [Vercel Live Demo](https://your-vercel-app-url.vercel.app)
+- **Frontend**: [Vercel Live Demo](https://currency-converter-flax-two.vercel.app/)
 - **Backend**: [Render API Endpoint](https://your-render-app-url.render.com)
 
 ## Screenshots
