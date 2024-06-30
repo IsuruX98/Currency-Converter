@@ -46,7 +46,7 @@ const CurrencyConverter = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white  p-8">
+    <div className="max-w-lg mx-auto bg-white rounded-3xl  p-8">
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           From Country
@@ -98,9 +98,14 @@ const CurrencyConverter = () => {
           </div>
         )}
       </div>
-      <Button type="primary" block onClick={handleTransfer}>
-        Transfer
-      </Button>
+      <div className="flex flex-col gap-3">
+        <Button type="primary" block onClick={handleTransfer}>
+          Transfer
+        </Button>
+        <Button type="default" block onClick={handleTransfer}>
+          View Transfer History
+        </Button>
+      </div>
     </div>
   );
 };
