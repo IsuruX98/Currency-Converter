@@ -1,6 +1,6 @@
 const express = require("express");
 const transferController = require("../controllers/transferController");
-const protect = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 router.get("/rate", transferController.getRate);
