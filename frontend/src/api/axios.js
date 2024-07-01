@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000/api/",
+  baseURL: "https://currency-converter-z1v6.onrender.com/api/",
   headers: {
     "Content-Type": "application/json",
   },
