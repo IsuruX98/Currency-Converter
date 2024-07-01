@@ -1,4 +1,3 @@
-// src/components/CurrencyConverter.js
 import React, { useState } from "react";
 import axios from "../../api/axios";
 import { Select, Input, Button, message, Modal } from "antd";
@@ -8,7 +7,7 @@ import { useAuth } from "../../context/authContext";
 const { Option } = Select;
 
 const CurrencyConverter = () => {
-  const { user } = useAuth(); // Assuming user is provided by the auth context
+  const { user } = useAuth();
   const [fromCountry, setFromCountry] = useState("USD");
   const [toCountry, setToCountry] = useState("LKR");
   const [amount, setAmount] = useState("");

@@ -1,4 +1,3 @@
-// server/controllers/transferController.js
 const axios = require("axios");
 const Transfer = require("../models/Transfer");
 const User = require("../models/userModel");
